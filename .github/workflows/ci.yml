@@ -1,0 +1,17 @@
+name: Example CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Run Sample Shell Script
+      run: echo "Hello from GitHub Actions!"
+
