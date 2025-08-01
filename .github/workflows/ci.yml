@@ -2,7 +2,7 @@ name: CI Workflow with Docker Login
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   docker-login:
