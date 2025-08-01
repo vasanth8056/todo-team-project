@@ -1,17 +1,19 @@
-name: Example CI
+name: CI Workflow with Docker Login
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  build:
+  docker-login:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
+    - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Run Sample Shell Script
-      run: echo "Hello from GitHub Actions!"
+    - name: Log in to DockerHub using secrets
+      run: echo "${{ Moto@1234 }}" | docker login -u "${{ vasanthmano }}" --password-stdin
 
+    - name: Confirm login
+      run: docker info
