@@ -1,12 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub')  // ID of Jenkins credentials
-        IMAGE_NAME = 'vasanthmano/todo-app'               // Replace with your DockerHub repo
-        IMAGE_TAG = 'v1.0.0'
-    }
-
     stages {
 
         stage('Clone Repo') {
@@ -18,7 +12,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t $IMAGE_NAME:$IMAGE_TAG .'
+                    sh 'docker build -t vasanthmano/to-do:v2.0.0 .'
                 }
             }
         }
@@ -27,7 +21,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                    echo "$DOCKERHUB_CREDENTIALS_PSW" | docker login -u "$DOCKERHUB_CREDENTIALS_USR" --password-stdin
+                    echo "Moto@1234" | docker login -u "$vasanthmano" --password-stdin
                     """
                 }
             }
@@ -36,7 +30,7 @@ pipeline {
         stage('Push Image to DockerHub') {
             steps {
                 script {
-                    sh 'docker push $IMAGE_NAME:$IMAGE_TAG'
+                    sh 'docker push vasanthmano/to-do:v2.0.0'
                 }
             }
         }
