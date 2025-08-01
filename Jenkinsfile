@@ -1,5 +1,23 @@
+
 pipeline {
     agent any
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                // This is already inside a node block with 'agent any'
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']],
+                          userRemoteConfigs: [[url: 'https://github.com/your-username/your-repo.git']]])
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t your-image-name:tag .'
+            }
+        }
+    }
+}
 
     stages {
 
