@@ -1,14 +1,11 @@
-node {
-    stage('Checkout') {
-        checkout scm
-    }
-    stage('Build') {
-        sh './gradlew build'
-    }
-    stage('Test') {
-        sh './gradlew test'
-    }
-    stage('Deploy') {
-        sh 'scp build/libs/*.jar vashant@MacBookAir:/Downloads/'
-    }
-}
+pipeline:
+  agent: any
+
+  stages:
+    - stage: "Checkout"
+      steps:
+        - checkout: scm
+
+    - stage: "Build"
+      steps:
+        - sh: './gradlew build'
