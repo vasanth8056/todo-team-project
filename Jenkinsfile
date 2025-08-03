@@ -22,13 +22,6 @@ pipeline {
                 
             }
         }
-        
-       stage('Deploy') {
-    steps {
-        echo 'Checking build output...'
-        sh 'ls -R build || echo "No build output found"'
-    }
-}
 
     }
 }
