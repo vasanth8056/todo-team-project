@@ -1,62 +1,34 @@
-
 pipeline {
     agent any
 
     stages {
-        stage('Checkout Code') {
+        stage('Code') {
             steps {
-                // This is already inside a node block with 'agent any'
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']],
-                          userRemoteConfigs: [[url: 'https://github.com/your-username/your-repo.git']]])
+                echo 'Cloning the repository...'
+                git url: 'https://github.com/vasanth8056/todo-team-project.git', branch: 'master'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build') {
             steps {
-                sh 'docker build -t your-image-name:tag .'
+                echo 'Building the application...'
+               
             }
         }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                
+            }
+        }
+        
+       stage('Deploy') {
+    steps {
+        echo 'Checking build output...'
+        sh 'ls -R build || echo "No build output found"'
     }
 }
 
-    stages {
-
-        stage('Clone Repo') {
-            steps {
-                git 'https://github.com/vasanth8056/todo-team-project.git'
-            }
-        }
-
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    sh 'docker build -t vasanthmano/to-do:v2.0.0 .'
-                }
-            }
-        }
-
-        stage('Login to DockerHub') {
-            steps {
-                script {
-                    sh """
-                    echo "Moto@1234" | docker login -u "$vasanthmano" --password-stdin
-                    """
-                }
-            }
-        }
-
-        stage('Push Image to DockerHub') {
-            steps {
-                script {
-                    sh 'docker push vasanthmano/to-do:v2.0.0'
-                }
-            }
-        }
-    }
-
-    post {
-        always {
-            sh 'docker logout'
-        }
     }
 }
