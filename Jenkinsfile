@@ -1,34 +1,17 @@
-pipeline {
-    agent any
+node {
+    stage('Checkout') {
+        checkout scm  // or use git(...) if you prefer
+    }
 
-    stages {
-        stage('Checkout') {
-            steps {
-                echo 'Cloning the repository...'
-                git url: 'https://github.com/vasanth8056/todo-team-project.git', branch: 'master'
-            }
-        }
+    stage('Build') {
+        sh './gradlew build'
+    }
 
-        stage('Build') {
-            steps {
-                echo 'Building the application...'
-                sh 'chmod +x ./gradlew'
-                sh './gradlew build'
-            }
-        }
+    stage('Test') {
+        sh './gradlew test'
+    }
 
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-                sh './gradlew test'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo 'Deploying the application...'
-                sh 'scp build/libs/*.jar vashant@MacBookAir:/Downloads/'
-            }
-        }
+    stage('Deploy') {
+        sh 'scp build/libs/*.jar vashant@MacBookAir:/Downloads/'
     }
 }
